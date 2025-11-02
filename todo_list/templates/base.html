@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}لیست کارها{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><a href="{{ url_for('todo_list') }}">📝 لیست کارها</a></h1>
+
+            <div class="user">
+                {% if session.username %}
+                    <span>👋 {{ session.username }}</span>
+                    <a href="{{ url_for('logout') }}">خروج</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">ورود</a>
+                    <a href="{{ url_for('register') }}">ثبت‌نام</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flashes">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

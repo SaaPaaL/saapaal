@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}ثبت‌نام{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>ثبت‌نام کاربر جدید</h2>
+    <form method="post" class="mt-8">
+        <label>نام کاربری:</label>
+        <input type="text" name="username" required>
+
+        <label>رمز عبور:</label>
+        <input type="password" name="password" required>
+
+        <label>شماره تماس:</label>
+        <input type="text" name="phone">
+
+        <label>تاریخ تولد:</label>
+        <input type="date" name="birthday">
+
+        <label>کد ملی:</label>
+        <input type="text" name="national_id">
+
+        <div class="mt-8">
+            <button type="submit" class="btn">ثبت‌نام</button>
+            <a href="{{ url_for('login') }}" class="btn ghost">بازگشت به ورود</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

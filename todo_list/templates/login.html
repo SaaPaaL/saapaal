@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}ورود{% endblock %}
+{% block content %}
+<div class="card">
+    <h2>ورود به حساب</h2>
+    <form method="post" class="mt-8">
+        <label>نام کاربری:</label>
+        <input type="text" name="username" required>
+
+        <label>رمز عبور:</label>
+        <input type="password" name="password" required>
+
+        <div class="mt-8">
+            <button type="submit" class="btn">ورود</button>
+            <a href="{{ url_for('register') }}" class="btn ghost">ثبت‌نام</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
