@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}ثبت‌نام{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>ثبت‌نام کاربر جدید</h2>
+    <form method="post" class="mt-8" id="registerForm">
+        <label>نام کاربری:</label>
+        <input type="text" name="username" required>
+
+        <label>رمز عبور:</label>
+        <input type="password" name="password" id="password" required>
+        <div id="strength-message" class="strength"></div>
+        
+        <label>شماره تماس:</label>
+        <input type="text" name="phone" id="phone">
+        <small id="phoneError" style="color:red; display:none;"></small>
+
+        <label>تاریخ تولد:</label>
+        <input type="date" name="birthday" required>
+
+        <label>کد ملی:</label>
+        <input type="text" name="national_id" required>
+
+        <div class="mt-8">
+            <button type="submit" class="btn">ثبت‌نام</button>
+            <a href="{{ url_for('login') }}" class="btn ghost">بازگشت به ورود</a>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const passwordInput = document.getElementById('password');
+  const strengthMsg = document.getElementById('strength-message');
+
+  passwordInput?.addEventListener('input', () => {
+    const value = passwordInput.value;
+    let strength = 0;
+
+    if (value.length >= 8) strength++;              // طول کافی
+    if (/[A-Z]/.test(value)) strength++;            // حروف بزرگ
+    if (/[a-z]/.test(value)) strength++;            // حروف کوچک
+    if (/[0-9]/.test(value)) strength++;            // عدد
+    if (/[^A-Za-z0-9]/.test(value)) strength++;     // کاراکتر خاص
+
+    if (value.length === 0) {
+      strengthMsg.textContent = '';
+      strengthMsg.style.color = '';
+    } else if (strength <= 2) {
+      strengthMsg.textContent = 'رمز ضعیف 😕';
+      strengthMsg.style.color = 'red';
+    } else if (strength === 3 || strength === 4) {
+      strengthMsg.textContent = 'رمز متوسط 🙂';
+      strengthMsg.style.color = 'orange';
+    } else {
+      strengthMsg.textContent = 'رمز قوی 💪';
+      strengthMsg.style.color = 'green';
+    }
+  });
+});
+</script>
+{% endblock %}

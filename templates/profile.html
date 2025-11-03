@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}پروفایل کاربر{% endblock %}
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+        <div class="avatar">
+            <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="User Avatar">
+        </div>
+        <h2 class="username">{{ user.username }}</h2>
+        <p class="id">کد ملی: {{ user.national_id }}</p>
+        <p class="birth">تاریخ تولد: {{ user.birthday.strftime('%Y-%m-%d') }}</p>
+        <p class="created">عضو شده در: {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+    </div>
+
+    <div class="profile-edit">
+        <form method="post" id="profileForm">
+            <h3>ویرایش اطلاعات کاربری</h3>
+
+            <label>📞 شماره تلفن:</label>
+            <input type="text" name="phone" id="phone" value="{{ user.phone or '' }}" placeholder="شماره تماس جدید">
+            <small id="phoneError" style="color:red; display:none;"></small>
+
+            <hr>
+
+            <h3>🔒 تغییر رمز عبور</h3>
+            <label>رمز فعلی:</label>
+            <input type="password" name="current_password" placeholder="رمز فعلی">
+
+            <label>رمز جدید:</label>
+            <input type="password" name="new_password" id="password" placeholder="رمز جدید">
+            <div id="strength-message" class="strength"></div>
+            <label>تکرار رمز جدید:</label>
+            <input type="password" name="confirm_password" placeholder="تکرار رمز جدید">
+
+            <div class="buttons">
+                <button type="submit" class="btn save">💾 ذخیره تغییرات</button>
+                <a href="{{ url_for('todo_list') }}" class="btn back">🔙 بازگشت</a>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+
+<script>
+    const passwordInput = document.getElementById('password');
+    const strengthMsg = document.getElementById('strength-message');
+
+passwordInput?.addEventListener('input', () => {
+  const value = passwordInput.value;
+  let strength = 0;
+
+  if (value.length >= 8) strength++;              // طول کافی
+  if (/[A-Z]/.test(value)) strength++;            // حروف بزرگ
+  if (/[a-z]/.test(value)) strength++;            // حروف کوچک
+  if (/[0-9]/.test(value)) strength++;            // عدد
+  if (/[^A-Za-z0-9]/.test(value)) strength++;     // کاراکتر خاص
+
+  if (value.length === 0) {
+    strengthMsg.textContent = '';
+    strengthMsg.style.color = '';
+  } else if (strength <= 2) {
+    strengthMsg.textContent = 'رمز ضعیف 😕';
+    strengthMsg.style.color = 'red';
+  } else if (strength === 3 || strength === 4) {
+    strengthMsg.textContent = 'رمز متوسط 🙂';
+    strengthMsg.style.color = 'orange';
+  } else {
+    strengthMsg.textContent = 'رمز قوی 💪';
+    strengthMsg.style.color = 'green';
+  }
+});
+</script>
+
+
+{% endblock %}
